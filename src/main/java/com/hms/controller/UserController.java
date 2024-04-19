@@ -52,18 +52,25 @@ public class UserController
 		}
 		
 		@PutMapping("/{userId}")
-		public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable String userId) {
-		    if (!userId.equals(user.getUserId())) {
+		public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable String userId)
+		{
+		    if (!userId.equals(user.getUserId()))
+		    {
 		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User ID in the path does not match the user ID in the request body.");
 		    }
 		    
-		    try {
+		    try 
+		    {
 		        User updatedUser = userService.updateUser(user);
 		        String message = "User with ID " + userId + " has been updated successfully.";
 		        return ResponseEntity.status(HttpStatus.OK).body(message);
-		    } catch (IllegalArgumentException ex) {
+		    }
+		    catch (IllegalArgumentException ex)
+		    {
 		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with ID: " + userId);
-		    } catch (Exception ex) {
+		    } 
+		    catch (Exception ex)
+		    {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating the user.");
 		    }
 		}
