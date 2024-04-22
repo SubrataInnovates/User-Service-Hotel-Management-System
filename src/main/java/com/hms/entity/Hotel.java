@@ -1,22 +1,17 @@
 package com.hms.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Rating 
+public class Hotel 
 {
-	private String ratingId;
-	private String userId;
 	private String hotelId;
-	private int rating;
-	
-	private String feedback;
-	
-	private Hotel hotel;
-	
+	private String name;
+	private String location;
+	private String about;
+
 }
