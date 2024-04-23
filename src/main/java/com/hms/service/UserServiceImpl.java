@@ -1,13 +1,12 @@
 package com.hms.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Logger;
+import com.hms.external.service.HotelService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import com.hms.entity.Hotel;
 import com.hms.entity.Rating;
 import com.hms.entity.User;
-import com.hms.external.service.HotelService;
 import com.hms.repository.UserRepository;
 
 @Service
@@ -60,19 +58,19 @@ public class UserServiceImpl implements UserService
 		
 		List<Rating> ratings = Arrays.stream(userRating).toList();
 		
-		ratings.stream().map(rating->
+		List<Rating> ratingList=ratings.stream().map(rating->
 		{
 			
-			//ResponseEntity<Hotel> forEntity=restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
-			//Hotel hotel=forEntity.getBody();
+//			ResponseEntity<Hotel> forEntity=restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
+//			Hotel hotel=forEntity.getBody();
 			
-			Hotel hotel = hotelService.getHotel(rating.getHotelId());
+			Hotel hotel =hotelService.getHotel(rating.getHotelId());
 			rating.setHotel(hotel);
 			return rating; 
 			
 		}).collect(Collectors.toList());
 		
-		user.setRatings(ratings);
+		user.setRatings(ratingList);
 		return user;
 		
 		
