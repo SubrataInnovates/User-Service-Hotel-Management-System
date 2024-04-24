@@ -2,6 +2,7 @@ package com.hms.controller;
 
 import java.util.List;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,8 @@ public class UserController
 
 		@GetMapping("/{userId}")
 		//@CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "ratingHotelFallBack")
-		@Retry(name = "ratingHotelService",fallbackMethod = "ratingHotelFallBack")
+//		@Retry(name = "ratingHotelService",fallbackMethod = "ratingHotelFallBack")
+		@RateLimiter(name="userRateLimiter",fallbackMethod = "ratingHotelFallBack")
 		public ResponseEntity<User> getUser(@PathVariable String userId)
 		{
 			logger.info("Getting Single User Handler : UserController");
