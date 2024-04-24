@@ -2,6 +2,7 @@ package com.hms.controller;
 
 import java.util.List;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,10 +43,16 @@ public class UserController
 		    return ResponseEntity.status(HttpStatus.CREATED).body(message);
 		}
 
+		int retryCount=1;
+
 		@GetMapping("/{userId}")
-		@CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "ratingHotelFallBack")
+		//@CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "ratingHotelFallBack")
+		@Retry(name = "ratingHotelService",fallbackMethod = "ratingHotelFallBack")
 		public ResponseEntity<User> getUser(@PathVariable String userId)
 		{
+			logger.info("Getting Single User Handler : UserController");
+			logger.info("Retry Count {} ",retryCount);
+			retryCount++;
 			User user = userService.getUser(userId);
 			
 			return ResponseEntity.status(HttpStatus.OK).body(user);
