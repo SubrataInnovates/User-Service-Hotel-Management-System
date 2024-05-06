@@ -59,12 +59,12 @@ public class UserController
 			
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}
-		
-		// creating fallback method for circuitbreaker
+
+	/* creating fallback method for circuitbreaker */
 		
 		ResponseEntity<User> ratingHotelFallBack(String userId,Exception ex)
 		{
-			logger.info("Fallback is executed beacuse service is down : ",ex.getMessage());
+			logger.info("Fallback is executed because service is down : ",ex.getMessage());
 			
 			User user=User.builder().email("subratatamondal692@gmail.com").name("Dummy").about("This user is created dummy because sevice is down").userId("1234").build();
 			return new ResponseEntity(user,HttpStatus.OK);
